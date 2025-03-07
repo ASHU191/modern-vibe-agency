@@ -15,8 +15,8 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
   const navItems = [
     { label: 'Home', href: '#home' },
-    { label: 'Works', href: '#works' },
     { label: 'Services', href: '#services' },
+    { label: 'Works', href: '#works' },
     { label: 'About', href: '#about' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -47,15 +47,15 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 md:px-12',
-        scrolled ? 'glass bg-white/70 backdrop-blur-md' : 'bg-transparent',
-        scrolled ? 'border-b border-gray-100' : 'border-b border-transparent',
+        scrolled ? 'glass bg-white/80 backdrop-blur-md' : 'bg-transparent',
+        scrolled ? 'border-b border-blue-50' : 'border-b border-transparent',
         className
       )}
     >
       <div className="container mx-auto flex justify-between items-center">
         <a href="#" className="flex items-center">
-          <span className="font-display text-xl font-semibold tracking-tight">Cubic</span>
-          <span className="ml-1 rounded-full bg-black w-2 h-2"></span>
+          <span className="font-display text-xl font-semibold tracking-tight">WebCraft</span>
+          <span className="ml-1 rounded-full bg-blue-600 w-2 h-2"></span>
         </a>
 
         {/* Desktop Navigation */}
@@ -67,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
               className="text-sm font-medium relative group transition-colors"
             >
               <span className="relative z-10">{item.label}</span>
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-blue-600 group-hover:w-full transition-all duration-300"></span>
             </a>
           ))}
         </nav>
@@ -102,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
               onClick={closeMobileMenu}
             >
               <span className="relative z-10">{item.label}</span>
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-black group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-blue-600 group-hover:w-full transition-all duration-300"></span>
             </a>
           ))}
         </nav>

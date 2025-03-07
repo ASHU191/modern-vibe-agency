@@ -32,21 +32,21 @@ const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ className = '' }) => {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Create spheres with subtle colors
+    // Create spheres with blue tones
     const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
     const sphereMaterials = [
       new THREE.MeshStandardMaterial({ 
-        color: 0xf5f5f7,
+        color: 0x3a6ea5, // medium blue
         roughness: 0.2,
         metalness: 0.8
       }),
       new THREE.MeshStandardMaterial({ 
-        color: 0xe5e5e5,
+        color: 0x1f4287, // darker blue
         roughness: 0.3,
         metalness: 0.7
       }),
       new THREE.MeshStandardMaterial({ 
-        color: 0xd5d5d5,
+        color: 0x071a52, // deep blue
         roughness: 0.4,
         metalness: 0.6
       }),
@@ -80,8 +80,8 @@ const ThreeCanvas: React.FC<ThreeCanvasProps> = ({ className = '' }) => {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    // Add point light
-    const pointLight = new THREE.PointLight(0xffffff, 1);
+    // Add point light with blue tint
+    const pointLight = new THREE.PointLight(0x3a6ea5, 1);
     pointLight.position.set(-5, 5, 5);
     scene.add(pointLight);
 

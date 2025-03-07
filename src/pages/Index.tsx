@@ -46,8 +46,8 @@ const Index = () => {
     <div className="relative overflow-x-hidden">
       <Navbar />
       <Hero />
-      <Works />
       <Services />
+      <Works />
       <About />
       <Contact />
       <Footer />
