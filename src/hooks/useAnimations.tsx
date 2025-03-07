@@ -81,6 +81,45 @@ export function useMouseTrail() {
   }, []);
 }
 
+export function useCustomCursor() {
+  useEffect(() => {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+    
+    const updateCursor = (e: MouseEvent) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    };
+    
+    const handleMouseOver = () => {
+      cursor.classList.add('hover');
+    };
+    
+    const handleMouseOut = () => {
+      cursor.classList.remove('hover');
+    };
+    
+    document.addEventListener('mousemove', updateCursor);
+    
+    // Add hover effect to interactive elements
+    const interactiveElements = document.querySelectorAll('a, button');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseover', handleMouseOver);
+      el.addEventListener('mouseout', handleMouseOut);
+    });
+    
+    return () => {
+      document.removeEventListener('mousemove', updateCursor);
+      interactiveElements.forEach(el => {
+        el.removeEventListener('mouseover', handleMouseOver);
+        el.removeEventListener('mouseout', handleMouseOut);
+      });
+      document.body.removeChild(cursor);
+    };
+  }, []);
+}
+
 export function useParallax(speed: number = 0.2): RefObject<HTMLDivElement> {
   const ref = useRef<HTMLDivElement>(null);
   

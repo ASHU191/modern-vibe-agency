@@ -1,216 +1,218 @@
 
-import React, { useState } from 'react';
-import { useIntersectionObserver, useScrollReveal } from '@/hooks/useAnimations';
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { ArrowRight, Mail, MessageSquare, Phone } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/useAnimations';
 
-const Contact: React.FC = () => {
-  useScrollReveal();
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const contactRef = useRef<HTMLDivElement>(null);
+  const [formRef, isFormVisible] = useIntersectionObserver({
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  });
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    // Here would be the logic to send the form data to a server
     
-    // Simulate form submission
+    // Reset form and show success
+    setName('');
+    setEmail('');
+    setMessage('');
+    setSubmitted(true);
+    
+    // Reset success message after 5 seconds
     setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
-    }, 1500);
+      setSubmitted(false);
+    }, 5000);
   };
   
-  const contactInfo = [
-    {
-      icon: <Mail className="h-5 w-5" />,
-      title: "Email",
-      details: "hello@cubic.studio",
-      link: "mailto:hello@cubic.studio"
-    },
-    {
-      icon: <Phone className="h-5 w-5" />,
-      title: "Phone",
-      details: "+1 (555) 123-4567",
-      link: "tel:+15551234567"
-    },
-    {
-      icon: <MapPin className="h-5 w-5" />,
-      title: "Visit Us",
-      details: "123 Design Street, Creative City",
-      link: "https://maps.google.com"
-    }
-  ];
-
   return (
-    <section id="contact" className="py-24 px-6 md:px-12 bg-gradient-subtle">
+    <section id="contact" className="py-24 px-6 md:px-12 relative bg-gradient-subtle" ref={contactRef}>
       <div className="container mx-auto max-w-screen-xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="reveal">
-            <span className="inline-block px-3 py-1 text-xs font-medium tracking-wider rounded-full border border-black/10 bg-white/80 backdrop-blur-sm mb-4">
-              Contact Us
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-              Let's create something amazing together
-            </h2>
-            <p className="text-gray-600 mb-8">
-              Have a project in mind or want to learn more about our services? Get in touch with us, and we'll be happy to discuss how we can bring your ideas to life.
-            </p>
-            
-            <div className="space-y-6 mb-8">
-              {contactInfo.map((item, index) => (
-                <ContactItem 
-                  key={index}
-                  icon={item.icon}
-                  title={item.title}
-                  details={item.details}
-                  link={item.link}
-                  delay={index * 100}
-                />
-              ))}
+        <div className="mb-16 text-center max-w-2xl mx-auto reveal">
+          <span className="inline-block px-3 py-1 text-xs font-medium tracking-wider rounded-full border border-blue-200 bg-white/80 backdrop-blur-sm mb-4 blue-accent">
+            Get In Touch
+          </span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+            Let's discuss your <span className="text-gradient">project</span>
+          </h2>
+          <p className="text-gray-600">
+            Ready to bring your ideas to life? Contact us today and let's start 
+            building something amazing together.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-5 reveal">
+            <div className="blue-glass-card p-8 h-full">
+              <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
+              
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                    <Mail className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Email</h4>
+                    <a href="mailto:hello@webcraft.com" className="text-lg font-medium hover:text-blue-600 transition-colors">
+                      hello@webcraft.com
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                    <Phone className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Phone</h4>
+                    <a href="tel:+1234567890" className="text-lg font-medium hover:text-blue-600 transition-colors">
+                      +1 (234) 567-890
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                    <MessageSquare className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Social Media</h4>
+                    <div className="flex space-x-4 mt-2">
+                      <a 
+                        href="https://twitter.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-blue-600 transition-colors"
+                      >
+                        Twitter
+                      </a>
+                      <a 
+                        href="https://linkedin.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-blue-600 transition-colors"
+                      >
+                        LinkedIn
+                      </a>
+                      <a 
+                        href="https://instagram.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-blue-600 transition-colors"
+                      >
+                        Instagram
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-12 pt-8 border-t border-blue-100">
+                <h4 className="text-lg font-medium mb-4">Our Office</h4>
+                <p className="text-gray-600">
+                  123 Web Avenue, Digital District<br />
+                  San Francisco, CA 94107<br />
+                  United States
+                </p>
+              </div>
             </div>
           </div>
           
-          <div className="reveal">
-            <div className="glass-card p-8 h-full">
-              <h3 className="text-xl font-semibold mb-6">Send us a message</h3>
-              
-              {submitted ? (
-                <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <div className="w-16 h-16 bg-black/5 rounded-full flex items-center justify-center mb-4">
-                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <h4 className="text-lg font-medium mb-2">Message sent!</h4>
-                  <p className="text-gray-600">We'll get back to you as soon as possible.</p>
+          <div 
+            ref={formRef}
+            className={`md:col-span-7 blue-glass-card p-8 transition-all duration-500 transform ${
+              isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}
+          >
+            {submitted ? (
+              <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                  <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
+                <p className="text-gray-600 mb-6">
+                  Thank you for reaching out. We'll get back to you shortly!
+                </p>
+                <button 
+                  onClick={() => setSubmitted(false)}
+                  className="text-blue-600 font-medium flex items-center"
+                >
+                  Send another message
+                  <ArrowRight className="ml-1 h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-2xl font-semibold mb-6">Send us a message</h3>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-1">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                       Your Name
                     </label>
                     <input
-                      type="text"
                       id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20 transition-all"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                       placeholder="John Doe"
+                      required
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-1">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                       Email Address
                     </label>
                     <input
-                      type="email"
                       id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20 transition-all"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                       placeholder="john@example.com"
+                      required
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-1">
-                      Message
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Message
                     </label>
                     <textarea
                       id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={4}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/20 transition-all resize-none"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                       placeholder="Tell us about your project..."
-                    ></textarea>
+                      rows={5}
+                      required
+                    />
                   </div>
                   
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-6 py-3 bg-black text-white rounded-full flex items-center justify-center transition-all hover:bg-gray-900 disabled:opacity-70"
+                    className="w-full py-3 px-6 blue-gradient text-white rounded-lg flex items-center justify-center transition-all hover:shadow-lg group"
                   >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Sending...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        Send Message
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </span>
-                    )}
+                    Send Message
+                    <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                   </button>
                 </form>
-              )}
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>
     </section>
-  );
-};
-
-interface ContactItemProps {
-  icon: React.ReactNode;
-  title: string;
-  details: string;
-  link: string;
-  delay: number;
-}
-
-const ContactItem: React.FC<ContactItemProps> = ({ icon, title, details, link, delay }) => {
-  const [ref, isVisible] = useIntersectionObserver();
-  
-  return (
-    <a 
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      ref={ref}
-      className={`flex items-start group transition-all duration-500 opacity-0 transform translate-y-8 ${
-        isVisible ? 'opacity-100 translate-y-0' : ''
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="p-2 bg-black/5 rounded-full mr-4 group-hover:bg-black/10 transition-colors">
-        {icon}
-      </div>
-      <div>
-        <h4 className="font-medium">{title}</h4>
-        <p className="text-gray-600 group-hover:text-black transition-colors">{details}</p>
-      </div>
-    </a>
   );
 };
 
